@@ -115,21 +115,25 @@ function renderCards(plants) {
         const div = document.createElement("div");
         div.className = "bg-white shadow rounded-lg p-4 text-center";
 
-        const addBtn = document.createElement("button");
-        addBtn.textContent = "Add to cart";
-        addBtn.className = "mt-2 bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800";
-        addBtn.addEventListener("click", () => addToCart(plant));
-
         div.innerHTML = `
-        <img src="${plant.image}" class="h-32 w-full object-cover rounded mb-2">
-        <h4 class="text-lg font-bold text-green-900 cursor-pointer">${plant.name}</h4>
-        <p class="text-slate-600 text-sm">${plant.category}</p>
-        <p class="font-semibold text-green-800">৳${plant.price}</p>
+        <img src="${plant.image}" class="h-32 w-full object-cover rounded mb-3">
+
+        <h4 class="text-lg font-bold text-black mb-1 text-left cursor-pointer">${plant.name}</h4>
+        <p class="text-sm font-bold text-slate-600 mb-2 text-left">
+            ${plant.description ? plant.description.slice(0, 40) + "" : ""}</p>
+        <div class="flex justify-between items-center mb-2">
+        <span class="text-xs bg-green-100 text-green-700  font-semibold px-2 py-1 rounded-full">${plant.category}</span>
+        <span class="font-semibold text-black">৳${plant.price}</span>
+        </div>
+
+        <button class="mt-auto md:w-62 w-80 bg-green-700 text-white px-4 py-2 
+        rounded-full hover:bg-green-800">Add to Cart</button>
         `;
 
         div.querySelector("h4").addEventListener("click", () => openModal(plant.id));
 
-        div.appendChild(addBtn);
+        div.querySelector("button").addEventListener("click", () => addToCart(plant));
+
         cardsEl.appendChild(div);
     });
 }
@@ -137,20 +141,45 @@ function renderCards(plants) {
 
 async function openModal(id) {
     try {
+        modalContent.innerHTML = "";
         const res = await fetch(api.plant(id));
         const data = await res.json();
-        const plant = data.plant;
-        modalContent.innerHTML = `
-            <img src="${plant.image}" class="h-40 w-full object-cover rounded mb-2">
-            <h4 class="text-xl font-bold text-green-900">${plant.name}</h4>
-            <p class="text-slate-600">${plant.description}</p>
-            <p class="mt-2 font-semibold">Category: ${plant.category}</p>
-            <p class="font-semibold">Price: ৳${plant.price}</p>
-    `;
+        const plant = data.plant || data.data?.plant || data.data;
+
+        if (!plant) {
+            modalContent.innerHTML = `<p class="text-red-500">Plant not found!<?>`;
+        }
+        else {
+            modalContent.innerHTML = `
+            <div class="bg-white shadow-xl rounded-2xl p-6 relative max-w-md mx-auto">
+            <button id="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700
+            text-2xl font-bold">&times;</button>
+
+            <img src="${plant.image}" class="h-40 w-full object-cover rounded-xl mb-5 shadow-md">
+            <h4 class="text-3xl font-bold text-green-900 mb-3">${plant.name}</h4>
+            <p class="text-gray-700 mb-4">${plant.description || "NO description available"}</p>
+            
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-sm bg-green-100 text-green-700 font-semibold px-4 py-1 rounded-full">
+                    ${plant.category || "N/A"}
+                    </span>
+                    <span class="text-2xl font-semibold text-black">৳${plant.price || 0}</span>
+                </div>
+            </div>
+        `;
+
+            const closeBtn = modalContent.querySelector("#closeModal");
+            closeBtn.addEventListener("click", () => {
+                modalEl.classList.add("hidden");
+            });
+        }
+
         modalEl.classList.remove("hidden");
     }
     catch (err) {
-        console.error(err);
+        console.error("Error loading plant details:", err);
+        modalContent.innerHTML = `<P class="text-red-500">Failed to load plant details.</P>`;
+        modalEl.classList.remove("hidden");
     }
 }
 

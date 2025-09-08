@@ -15,11 +15,11 @@
     <nav class="bg-[#15803D] shadow-sm sticky top-0 z-40 justify-between ">
         <div class="w-11/12 mx-auto sm:px-6 lg:px-8">
             <div class="flex items-center h-16 justify-between">
-                <div class="text-2xl font-semibold text-white">Green 🌴 Earth</div>
+                <div class="text-2xl font-semibold text-white">Green🌴Earth</div>
                 <div class="hidden md:flex gap-6 text-slate-600">
-                    <a href="#home" class="text-white">About</a>
-                    <a href="#gallery" class="text-white">Gallery</a>
-                    <a href="#plant" class="text-white">Plant a Tree</a>
+                    <a href="" class="text-white">About</a>
+                    <a href="" class="text-white">Gallery</a>
+                    <a href="" class="text-white">Plant a Tree</a>
                 </div>
                 <div class="flex items-center gap-4">
                     <button id="plant-tree-top"
@@ -38,7 +38,7 @@
             <img src="./assets/hero-leaf2.png" alt="leaf" class="w-38 h-40 md:h-full md:w-130">
         </div>
         <div class="text-center py-20 relative z-10">
-            <h2 class="text-3xl md:text-5xl font-bold text-black">Plant a Tree, Grow a Future</h2>
+            <h2 class="text-3xl md:text-5xl text-green-900 font-bold">Plant a Tree, Grow a Future</h2>
             <p class="text-gray-700 mt-3">
                 Join our mission to plant 1 million trees and make the Earth greener for future <br>
                 generations.
@@ -53,12 +53,12 @@
 
     <!-- categories + cards-->
     <main class="bg-green-50 pb-14">
-        <section class="max-w-7xl mx-auto px-6 py-14">
+        <section class="max-w-[1600px] mx-auto px-6 py-14">
             <h3 class="text-center text-2xl font-bold text-green-900 mb-6">Choose Your Trees</h3>
             <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
 
                 <div class="md:col-span-2">
-                    <h4 class="font-semibold mb-3">Categories</h4>
+                    <h4 class="font-bold mb-6 text-green-900 text-2xl">Categories</h4>
                     <div id="categories" class="flex flex-wrap md:flex-col gap-2"></div>
                 </div>
 
@@ -106,17 +106,17 @@
 
     <!-- our impact -->
     <section class="bg-green-100 py-12">
-        <h2 class="font-semibold text-2xl text-center mb-5">Our Impact</h2>
+        <h2 class="font-semibold text-3xl text-green-900 text-center mb-5">Our Impact</h2>
         <div class="max-w-380 mx-auto grid sm:grid-cols-3 text-center gap-10">
-            <div class="bg-white shadow rounded-lg p-6">
+            <div class="bg-white shadow rounded-lg p-6 hover:-translate-y-1 hover:bg-green-200 duration-200">
                 <h4 class="text-3xl font-bold text-green-700">500K+</h4>
                 <p class="text-slate-600 pt-2">Trees Planted</p>
             </div>
-            <div class="bg-white shadow rounded-lg p-6">
+            <div class="bg-white shadow rounded-lg p-6 hover:-translate-y-1 hover:bg-green-200 duration-200">
                 <h4 class="text-3xl font-bold text-green-700">120+</h4>
                 <p class="text-slate-600 pt-2">Communities Involved</p>
             </div>
-            <div class="bg-white shadow rounded-lg p-6">
+            <div class="bg-white shadow rounded-lg p-6 hover:-translate-y-1 hover:bg-green-200 duration-200">
                 <h4 class="text-3xl font-bold text-green-700">30+</h4>
                 <p class="text-slate-600 pt-2">Countries Reached</p>
             </div>
@@ -146,22 +146,21 @@
     <!-- footer section -->
     <footer class="bg-green-900 text-white py-6">
         <div class="text-center">
-            @ <span id="year"></span>2025 Green Earth. all Rights Reserved.
+            @ <span id="year"></span> Green Earth. all Rights Reserved.
         </div>
 
     </footer>
 
     <!-- modal  -->
-    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
-        <div class="bg-white p-6 rounded-lg max-w-md w-full">
-            <button id="modal-close" class="float-right text-red-500 font-bold">X</button>
-            <div id="modal-content" class="mt-4"></div>
+    <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg max-w-md w-full relative">
+            <button id="modal-close" class="absolute top-2 right-2 text-red-500 font-bold">X</button>
+            <div id="modal-content" class="mt-6"></div>
         </div>
     </div>
 
-
-    <!-- js  -->
-    <script src="./script.js"></script>
 </body>
+<!-- js  -->
+<script src="./script.js"></script>
 
 </html>
