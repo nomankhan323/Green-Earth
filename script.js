@@ -10,14 +10,11 @@ const cardsEl = document.getElementById("cards");
 const spinnerEl = document.getElementById("spinner");
 const cartItemsEl = document.getElementById("cart-items");
 const cartTotalEl = document.getElementById("cart-total");
-const modalEl = document.getElementById("modal");
-const modalContent = document.getElementById("modal-content");
-const modalClose = document.getElementById("modal-close");
 document.getElementById("year").textContent = new Date().getFullYear();
 
 let carts = {};
 let currentCategory = "all";
-
+let allPlants = [];
 
 // spinner 
 const showSpinner = () => spinnerEl.classList.remove("hidden");
@@ -75,6 +72,7 @@ async function loadAllPlants() {
     try {
         const res = await fetch(api.allPlants);
         const data = await res.json();
+        allPlants = data.plants || data.data || [];
         renderCards(data.plants);
     }
     catch (err) {
@@ -90,8 +88,8 @@ async function loadPlantsByCategory(id) {
     try {
         const res = await fetch(api.category(id));
         const data = await res.json();
-
         const plants = data.plants || data.data?.plants || [];
+        allPlants = plants;
         if (plants.length > 0) {
             renderCards(plants);
         }
@@ -141,52 +139,31 @@ function renderCards(plants) {
 
 async function openModal(id) {
     try {
-        modalContent.innerHTML = "";
-        const res = await fetch(api.plant(id));
-        const data = await res.json();
-        const plant = data.plant || data.data?.plant || data.data;
+        const plant = allPlants.find(p => p.id == id);
 
         if (!plant) {
-            modalContent.innerHTML = `<p class="text-red-500">Plant not found!<?>`;
+            document.getElementById("details-container").innerHTML = "<p class='text-red-500'>Plant not found!</p>";
+            my_modal_5.showModal();
+            return;
         }
-        else {
-            modalContent.innerHTML = `
-            <div class="bg-white shadow-xl rounded-2xl p-6 relative max-w-md mx-auto">
-            <button id="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700
-            text-2xl font-bold">&times;</button>
 
-            <img src="${plant.image}" class="h-40 w-full object-cover rounded-xl mb-5 shadow-md">
-            <h4 class="text-3xl font-bold text-green-900 mb-3">${plant.name}</h4>
-            <p class="text-gray-700 mb-4">${plant.description || "NO description available"}</p>
-            
-            <div class="flex justify-between items-center mb-2">
-                <span class="text-sm bg-green-100 text-green-700 font-semibold px-4 py-1 rounded-full">
-                    ${plant.category || "N/A"}
-                    </span>
-                    <span class="text-2xl font-semibold text-black">৳${plant.price || 0}</span>
-                </div>
-            </div>
+        document.getElementById("details-container").innerHTML = `
+            <h2 class="text-2xl font-bold mb-2 text-green-900">${plant.name}</h2>
+            <img src="${plant.image}" alt="${plant.name}" class="h-48 w-full object-cover rounded-xl shadow mb-4">
+
+            <p class="mb-2"><b>Categories:</b> ${plant.category}</p>
+            <p class="mb-2"><b>Price:</b> ৳${plant.price}</p>
+            <p class="text-gray-700"><b>Description:<b> ${plant.description}</p>
         `;
 
-            const closeBtn = modalContent.querySelector("#closeModal");
-            closeBtn.addEventListener("click", () => {
-                modalEl.classList.add("hidden");
-            });
-        }
-
-        modalEl.classList.remove("hidden");
+        my_modal_5.showModal();
     }
     catch (err) {
         console.error("Error loading plant details:", err);
-        modalContent.innerHTML = `<P class="text-red-500">Failed to load plant details.</P>`;
-        modalEl.classList.remove("hidden");
+        document.getElementById("details-container").innerHTML = "<P class='text-red-500'>Failed to load plant details.</P >";
+        my_modal_5.showModal();
     }
 }
-
-modalClose.onclick = () => modalEl.classList.add("hidden");
-modalEl.onclick = e => {
-    if (e.target === modalEl) modalEl.classList.add("hidden");
-};
 
 // cart 
 function addToCart(plant) {
@@ -213,9 +190,9 @@ function renderCart() {
         const li = document.createElement("li");
         li.className = "flex justify-between items-center bg-green-50 px-2 py-1 rounded";
         li.innerHTML = `
-        <span>${item.name} ৳${item.price} × ${item.qty}</span>
-        <button class="text-red-500">❌</button>
-        `;
+            <span>${item.name} ৳${item.price} × ${item.qty}</span>
+            <button class="text-red-500">❌</button>
+    `;
         li.querySelector("button").addEventListener("click", () => removeFromCart(item.id));
         cartItemsEl.appendChild(li);
     });

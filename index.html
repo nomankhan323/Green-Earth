@@ -152,12 +152,15 @@
     </footer>
 
     <!-- modal  -->
-    <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-        <div class="bg-white p-6 rounded-lg max-w-md w-full relative">
-            <button id="modal-close" class="absolute top-2 right-2 text-red-500 font-bold">X</button>
-            <div id="modal-content" class="mt-6"></div>
+    <dialog id="my_modal_5" class="modal">
+        <div class="modal-box space-y-4">
+            <div id="details-container">
+            </div>
+            <div class="modal-action">
+                <button class="btn" onclick="my_modal_5.close()">close</button>
+            </div>
         </div>
-    </div>
+    </dialog>
 
 </body>
 <!-- js  -->
