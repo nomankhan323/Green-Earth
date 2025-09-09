@@ -124,7 +124,7 @@ function renderCards(plants) {
         <span class="font-semibold text-black">৳${plant.price}</span>
         </div>
 
-        <button class="mt-auto md:w-62 w-80 bg-green-700 text-white px-4 py-2 
+        <button class="mt-auto md:w-62 w-60 bg-green-700 text-white px-4 py-2 
         rounded-full hover:bg-green-800">Add to Cart</button>
         `;
 
